@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cadastrar Administrador do Sistema</title>
+</h:head>
+<h:body>
+
+	<ui:composition template="../template_sistema.xhtml">
+	<ui:define name="">
+	
+	<!-- Formulario de Cadastro de Administrador do Sistema -->
+		<h:form id="formularioCadastroAdministrador">
+
+			<h:panelGrid columns="3">
+				<h:outputText value="Nome" />
+				<p:inputText id="nomeAdmin" required="true"
+					requiredMessage="Preencher o nome"
+					value="#{administradorMB.administrador.nome}" />
+				<p:message for="nomeAdmin" />
+
+				<h:outputText value="CPF" />
+				<p:inputText id="cpfAdmin" required="true"
+					requiredMessage="Preencher o CPF"
+					value="#{administradorMB.administrador.cpf}" />
+				<p:message for="cpfAdmin" />
+				
+				<h:outputText value="Login" />
+				<p:inputText id="loginAdmin" required="true"
+					requiredMessage="Preencher o login"
+					value="#{administradorMB.administrador.login}" />
+				<p:message for="loginAdmin" />
+
+				<h:outputText value="Senha" />
+				<p:inputText id="senhaAdmin" required="true"
+					requiredMessage="Preencher o senha"
+					value="#{administradorMB.administrador.senha}" />
+				<p:message for="senhaAdmin" />
+
+				<h:outputText value="Permissão" />
+				<p:selectOneMenu id="permissao"
+					value="#{administradorMB.administrador.perfil}" filter="true"
+					filterMatchMode="startsWith">
+					<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+				</p:selectOneMenu>
+				<p:message for="permissao" />
+
+				<p:commandButton update="@form, formTabelaAdmin"
+					value="Cadastrar" actionListener="#{administradorMB.inserir()}" />
+			</h:panelGrid>
+		</h:form>
+		
+		<br />
+		
+<!-- 		Tabela para alterar/excluir Administradores cadastrados -->
+		<h:form id="formTabelaAdmin">
+			<p:dataTable value="#{administradorMB.administradores}" var="admin">
+				<p:column headerText="ID">
+					<h:outputText value="#{admin.idAdministrador}" />
+				</p:column>					
+				<p:column headerText="Login">
+					<h:outputText value="#{admin.login}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{admin.nome}" />
+				</p:column>
+				<p:column headerText="Perfil">
+					<h:outputText value="#{admin.perfil}" />
+				</p:column>
+
+				<p:column headerText="Opções">
+					<p:commandButton value="Alterar"
+						update="formularioCadastroAdministrador">
+						<f:setPropertyActionListener value="#{admin}"
+							target="#{administradorMB.administrador}" />
+					</p:commandButton>
+					<p:commandButton value="Excluir"
+						actionListener="#{administradorMB.excluir(admin.idAdministrador)}" update="@form">
+						<p:confirm header="Confirmação" message="Deseja excluir??"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</h:body>
+</html>

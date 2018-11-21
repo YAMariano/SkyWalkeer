@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cadastro de Dependente</title>
+</h:head>
+<h:body>
+
+	<b>Olá, #{clienteTitularMB.clienteTitular.nome}</b>
+	
+	<!-- Formulario de MENU -->
+	<h:form>
+		<p:growl id="messages" />
+
+		<p:splitButton value="Menu"
+				url="http://localhost:8081/SkyWalker/index.xhtml" update="messages"
+				icon="ui-icon-disk">
+			<p:menuitem value="Cliente"
+				url="http://localhost:8081/SkyWalker/Usuario/apresentarUsuario.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Filmes"
+				url="http://localhost:8081/SkyWalker/Conteudo/apresentarConteudo.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Planos"
+				url="http://localhost:8081/SkyWalker/Plano/apresentarPlano.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Home"
+				url="http://localhost:8081/SkyWalker/index.xhtml" update="messages"
+				icon="ui-icon-arrowrefresh-1-w" />
+			<p:separator />
+		</p:splitButton>
+	</h:form>
+
+
+	<br />
+	<br />
+
+<!-- 	Formulario para Cadastrar Cliente Dependente -->
+		<h:form id="formularioCadastroClienteDependente">
+
+			<h:panelGrid columns="3">
+				<h:outputText value="Nome" />
+				<p:inputText id="nomeClienteDependente" required="true"
+					requiredMessage="Preencher o Nome"
+					value="#{dependenteClienteMB.dependente.nome}" />
+				<p:message for="nomeClienteDependente" />
+
+				<h:outputText value="CPF" />
+				<p:inputText validator="validacaoCPF" 				
+					id="cpfClienteDependente"
+					required="true" requiredMessage="Preencher o CPF"
+					value="#{dependenteClienteMB.dependente.cpf}" />
+				<p:message for="cpfClienteDependente" />
+
+				<h:outputText value="Data Nascimento" />
+				<p:inputText id="dtNascimentoClienteDependente" required="true"
+					requiredMessage="Preencher o Data de Nascimento"
+					value="#{dependenteClienteMB.dependente.dataNascimento}" />
+				<p:message for="dtNascimentoClienteDependente" />
+
+				<h:outputText value="Login" />
+				<p:inputText id="loginClienteDependente" required="true"
+					requiredMessage="Preencher o Login"
+					value="#{dependenteClienteMB.dependente.login}" />
+				<p:message for="loginClienteDependente" />
+
+				<h:outputText value="Senha" />
+				<p:inputText id="senhaClienteDependente" required="true"
+					requiredMessage="Preencher Senha"
+					value="#{dependenteClienteMB.dependente.senha}" />
+				<p:message for="senhaClienteDependente" />
+				
+				<h:outputText value="Permissão" />
+				<p:selectOneMenu id="permissao"
+					value="#{dependenteClienteMB.dependente.perfil}" filter="true"
+					filterMatchMode="startsWith">
+					<f:selectItem itemLabel="Dependente" itemValue="Dependente" />
+				</p:selectOneMenu>
+				<p:message for="permissao" />
+
+				<p:commandButton update="@form, formTabelaClienteDependente"
+					value="Cadastrar Dependente" actionListener="#{dependenteClienteMB.inserir()}" />
+			</h:panelGrid>
+		</h:form>
+		<br />
+		
+<!-- 		Assim que o cliente fizer o cadastro, exibirá os dados na tabela abaixo para alterar qualquer dado -->
+		<h:form id="formTabelaClienteDependente">
+			<p:dataTable value="#{dependenteClienteMB.dependentes}" var="clienteDependente">
+				<p:column headerText="Nome">
+					<h:outputText value="#{clienteDependente.nome}" />
+				</p:column>
+				<p:column headerText="Data Nascimento">
+					<h:outputText value="#{clienteDependente.dataNascimento}" />
+				</p:column>
+				<p:column headerText="CPF">
+					<h:outputText value="#{clienteDependente.cpf}" />
+				</p:column>
+				<p:column headerText="Login">
+					<h:outputText value="#{clienteDependente.login}" />
+				</p:column>
+				<p:column headerText="Senha">
+					<h:outputText value="#{clienteDependente.senha}" />
+				</p:column>
+
+				<p:column headerText="Opções">
+					<p:commandButton value="Alterar" update="formularioCadastroClienteDependente">
+						<f:setPropertyActionListener value="#{clienteDependente}"
+							target="#{dependenteClienteMB.dependente}" />
+					</p:commandButton>
+					<p:commandButton value="Excluir"
+						actionListener="#{dependenteClienteMB.excluir(clienteDependente.idDependente)}" update="@form">
+						<p:confirm header="Confirmação" message="Deseja excluir??"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+		
+</h:body>
+</html>

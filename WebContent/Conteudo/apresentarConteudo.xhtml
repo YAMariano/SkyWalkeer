@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Conteúdo</title>
+</h:head>
+<body>
+	
+	<b>Olá, #{clienteTitularMB.clienteTitular.nome}</b>
+	
+	<!-- Formulario de MENU -->
+	<h:form>
+		<p:growl id="messages" />
+
+		<p:splitButton value="Menu"
+				url="http://localhost:8081/SkyWalker/index.xhtml" update="messages"
+				icon="ui-icon-disk">
+			<p:menuitem value="Cliente"
+				url="http://localhost:8081/SkyWalker/Usuario/apresentarUsuario.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Filmes"
+				url="http://localhost:8081/SkyWalker/Conteudo/apresentarConteudo.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Planos"
+				url="http://localhost:8081/SkyWalker/Plano/apresentarPlano.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Home"
+				url="http://localhost:8081/SkyWalker/index.xhtml" update="messages"
+				icon="ui-icon-arrowrefresh-1-w" />
+			<p:separator />
+		</p:splitButton>
+	</h:form>
+
+<!-- 	Tabela com Conteúdo cadastrado -->
+		<h:form id="formTabelaConteudo">
+			<p:dataTable value="#{conteudoMB.conteudos}" var="cont">
+			
+				<p:column headerText="Nome">
+					<h:outputText value="#{cont.nome}" />
+				</p:column>
+				<p:column headerText="Gênero">
+					<h:outputText value="#{cont.genero}" />
+				</p:column>
+				<p:column headerText="Indicação">
+					<h:outputText value="#{cont.indicacao}" />
+				</p:column>
+				<p:column headerText="Tempo de Duração">
+					<h:outputText value="#{cont.tempoDuracao}" />
+				</p:column>
+			
+			</p:dataTable>
+		</h:form>
+
+</body>
+</html>

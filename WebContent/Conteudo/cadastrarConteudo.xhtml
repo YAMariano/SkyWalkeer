@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cadastro de Conteúdo</title>
+</h:head>
+<h:body>
+
+	<b>Olá, #{administradorMB.administrador.nome}</b>
+	
+<!-- Formulario de MENU -->
+	<h:form>
+		<p:growl id="messages" />
+
+		<p:splitButton value="Menu"
+				url="http://localhost:8081/SkyWalker/index.xhtml" update="messages"
+				icon="ui-icon-disk">
+			<p:menuitem value="Cliente"
+				url="http://localhost:8081/SkyWalker/Usuario/apresentarUsuario.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Filmes"
+				url="http://localhost:8081/SkyWalker/Conteudo/apresentarConteudo.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Planos"
+				url="http://localhost:8081/SkyWalker/Plano/apresentarPlano.xhtml"
+				update="messages" icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="Home"
+				url="http://localhost:8081/SkyWalker/index.xhtml" update="messages"
+				icon="ui-icon-arrowrefresh-1-w" />
+			<p:separator />
+		</p:splitButton>
+	</h:form>
+
+
+	<br />
+	<br />
+
+<!-- 	Formulario para Cadastrar Conteúdo -->
+		<h:form id="formularioCadastroConteudo">
+			<h:panelGrid columns="3">
+				
+				<h:outputText value="Nome" />
+				<p:inputText id="nomeTitulo" required="true"
+					requiredMessage="Preencher o Nome do Título"
+					value="#{conteudoMB.conteudo.nome}" />
+				<p:message for="nomeTitulo" />
+				
+				<h:outputText value="Gênero" />
+				<p:inputText id="generoTitulo" required="true"
+					requiredMessage="Preencher o Gênero do Título"
+					value="#{conteudoMB.conteudo.genero}" />
+				<p:message for="generoTitulo" />
+								
+				<h:outputText value="Tipo" />
+				<p:inputText id="tipoTitulo" required="true"
+					requiredMessage="Preencher o Tipo"
+					value="#{conteudoMB.conteudo.tipo}" />
+				<p:message for="tipoTitulo" />
+								
+				<h:outputText value="Indicação" />
+				<p:inputText id="indicacaoTitulo" required="true"
+					requiredMessage="Preencher a Indicação"
+					value="#{conteudoMB.conteudo.indicacao}" />
+				<p:message for="indicacaoTitulo" />
+								
+				<h:outputText value="Ano de Lançamento" />
+				<p:inputText id="anoLancamentoTitulo" required="true"
+					requiredMessage="Preencher o Ano"
+					value="#{conteudoMB.conteudo.anoLancamento}" />
+				<p:message for="anoLancamentoTitulo" />
+								
+				<h:outputText value="Duração" />
+				<p:inputText id="duracaoTitulo" required="true"
+					requiredMessage="Preencher a Duração"
+					value="#{conteudoMB.conteudo.tempoDuracao}" />
+				<p:message for="duracaoTitulo" />
+
+				
+				<p:commandButton update="@form, formTabelaConteudo"
+					value="Cadastrar" actionListener="#{conteudoMB.inserir()}" />
+			</h:panelGrid>
+		</h:form>
+		<br />
+		
+<!-- 	Tabela para mostrar Conteúdo cadastrado -->
+		<h:form id="formTabelaConteudo">
+			<p:dataTable value="#{conteudoMB.conteudos}" var="cont">
+				
+				<p:column headerText="Nome">
+					<h:outputText value="#{cont.nome}" />
+				</p:column>
+				<p:column headerText="Gênero">
+					<h:outputText value="#{cont.genero}" />
+				</p:column>
+				<p:column headerText="Indicação">
+					<h:outputText value="#{cont.indicacao}" />
+				</p:column>
+				<p:column headerText="Tempo de Duração">
+					<h:outputText value="#{cont.tempoDuracao}" />
+				</p:column>
+	
+				<p:column headerText="Opções">
+					<p:commandButton value="Alterar" update="formularioCadastroConteudo">
+						<f:setPropertyActionListener value="#{cont}"
+							target="#{conteudoMB.conteudo}" />
+					</p:commandButton>
+					
+					<p:commandButton value="Excluir"
+						actionListener="#{conteudoMB.excluir(cont.idConteudo)}" update="@form">
+						<p:confirm header="Confirmação" message="Deseja excluir??"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+				
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+			
+		</h:form>
+		
+</h:body>
+</html>
